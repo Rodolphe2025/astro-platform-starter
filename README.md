@@ -1,51 +1,1075 @@
-# Astro on Netlify Platform Starter
+<!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>l'Ivoirien.ci</title>
+  <style>
+    :root{
+      --orange:#f60;
+      --green:#008751;
+      --white:#ffffff;
+      --dark:#222;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;background:var(--white);color:var(--dark);}/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--orange);color:var(--white);}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.4rem;font-weight:700;}
+.logo svg{width:32px;height:32px;}
+nav ul{display:flex;gap:16px;list-style:none;}
+nav a{color:var(--white);text-decoration:none;font-weight:600;}
 
-[Live Demo](https://astro-platform-starter.netlify.app/)
+/* HERO */
+.hero{padding:32px 16px;text-align:center;background:#ececec;}
+.hero video{width:100%;max-width:640px;border-radius:12px;}
 
-A modern starter based on Astro.js, Tailwind, and [Netlify Core Primitives](https://docs.netlify.com/core/overview/#develop) (Edge Functions, Image CDN, Blob Store).
+/* SECTIONS */
+section{padding:40px 16px;}
+h2{margin-bottom:24px;font-size:2rem;}
+.grid{display:grid;gap:24px;}
+.videos{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.news{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.card{border:1px solid #ddd;border-radius:8px;overflow:hidden;background:var(--white);box-shadow:0 2px 4px rgba(0,0,0,.06);}
+.card img{width:100%;display:block;}
+.card p, .card h3{padding:12px;}
 
-## Astro Commands
+/* CHAT */
+.chat-button{position:fixed;bottom:24px;right:24px;background:var(--orange);color:var(--white);width:56px;height:56px;border:none;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.2);} 
+#chatContainer{position:fixed;bottom:100px;right:16px;width:320px;max-width:90vw;background:var(--white);border:1px solid #ddd;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;flex-direction:column;overflow:hidden;}
+#chatHeader{background:var(--green);color:var(--white);padding:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+#chatMessages{padding:12px;height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}    
+.msg{padding:8px 12px;border-radius:16px;max-width:80%;word-wrap:break-word;}
+.me{align-self:flex-end;background:var(--orange);color:#fff;}
+.bot{align-self:flex-start;background:#f0f0f0;}
+#chatInput{display:flex;border-top:1px solid #ddd;}
+#chatInput input{flex:1;border:none;padding:12px;font-size:1rem;}
+#chatInput button{border:none;background:var(--orange);color:#fff;padding:0 20px;font-size:1rem;font-weight:700;cursor:pointer;}
+#chatInput input:focus{outline:none;}
 
-All commands are run from the root of the project, from a terminal:
+/* FOOTER */
+footer{text-align:center;padding:16px;background:var(--green);color:var(--white);}
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+/* MOBILE */
+@media(max-width:700px){
+  nav ul{flex-direction:column;position:absolute;top:64px;right:0;background:var(--orange);width:200px;padding:16px;display:none;}
+  nav.open ul{display:flex;}
+  .menu-toggle{display:block;cursor:pointer;font-size:28px;color:var(--white);}  
+  header{position:relative;}
+}
+@media(max-width:500px){
+  .hero video{max-width:100%;}
+}
 
-## Deploying to Netlify
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <!-- SVG Logo: Flag circle of Côte d'Ivoire -->
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo l'Ivoirien.ci"><circle cx="30" cy="30" r="30" fill="#f60"/><path d="M30 0a30 30 0 0 0 0 60V0z" fill="#fff"/><path d="M30 0v60a30 30 0 0 0 0-60z" fill="#008751"/></svg>
+      l'Ivoirien.ci
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#videos">Vidéos</a></li>
+        <li><a href="#news">Actualités</a></li>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>  <!-- HERO -->  <section class="hero" id="accueil">
+    <h2>Interview à la une</h2>
+    <video controls>
+      <source src="video-exemple.mp4" type="video/mp4">Votre navigateur ne supporte pas la vidéo.</video>
+  </section>  <!-- VIDÉOS -->  <section id="videos">
+    <h2>Dernières Vidéos</h2>
+    <div class="grid videos">
+      <article class="card">
+        <img src="thumbnail1.jpg" alt="vidéo 1">
+        <p>Interview exclusive avec...</p>
+      </article>
+      <article class="card">
+        <img src="thumbnail2.jpg" alt="vidéo 2">
+        <p>Débat sur l'actualité ivoirienne</p>
+      </article>
+    </div>
+  </section>  <!-- ACTUALITÉS -->  <section id="news">
+    <h2>Actualités</h2>
+    <div class="grid news">
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Résumé de l'actualité importante du jour...</p>
+      </article>
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Un autre sujet d'intérêt pour les Ivoiriens...</p>
+      </article>
+    </div>
+  </section>  <!-- À PROPOS -->  <section id="about">
+    <h2>À propos</h2>
+    <p>l'Ivoirien.ci est un média ivoirien dédié à la diffusion d'interviews vidéo et d'actualités locales. Notre mission est de donner la parole aux citoyens et de couvrir l'information de manière libre et engagée.</p>
+  </section>  <!-- CONTACT -->  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email : contact@livoirien.ci</p>
+  </section>  <!-- FOOTER -->  <footer>&copy; 2025 l'Ivoirien.ci — Tous droits réservés</footer>  <!-- CHAT BUTTON & CONTAINER --><button class="chat-button" onclick="toggleChat()">💬</button>
 
-[![Deploy to Netlify](https://www.netlify.com/img/deploy/button.svg)](https://app.netlify.com/start/deploy?repository=https://github.com/netlify-templates/astro-platform-starter)
+  <div id="chatContainer">
+    <div id="chatHeader">Discussion <span style="cursor:pointer" onclick="toggleChat()">✕</span></div>
+    <div id="chatMessages"></div>
+    <form id="chatInput" onsubmit="sendMessage(event)">
+      <input type="text" id="messageTxt" placeholder="Votre message..." autocomplete="off" required>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>  <!-- SCRIPT -->  <script>
+    // Responsive menu
+    function toggleMenu(){document.querySelector('nav').classList.toggle('open');}
 
-## Developing Locally
+    // Chat system using localStorage
+    const chatKey='livoirienChat';
+    const chatContainer=document.getElementById('chatContainer');
+    const chatMessages=document.getElementById('chatMessages');
 
-| Prerequisites                                                                |
-| :--------------------------------------------------------------------------- |
-| [Node.js](https://nodejs.org/) v18.14+.                                      |
-| (optional) [nvm](https://github.com/nvm-sh/nvm) for Node version management. |
+    // Load messages
+    function loadMessages(){
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      chatMessages.innerHTML='';
+      msgs.forEach(m=>{
+        const div=document.createElement('div');
+        div.className='msg '+(m.from==='me'?'me':'bot');
+        div.textContent=m.text;
+        chatMessages.appendChild(div);
+      });
+      chatMessages.scrollTop=chatMessages.scrollHeight;
+    }
 
-1. Clone this repository, then run `npm install` in its root directory.
+    // Toggle chat visibility
+    function toggleChat(){
+      if(chatContainer.style.display==='flex'){
+        chatContainer.style.display='none';
+      }else{
+        chatContainer.style.display='flex';
+        loadMessages();
+      }
+    }
 
-2. For the starter to have full functionality locally (e.g. edge functions, blob store), please ensure you have an up-to-date version of Netlify CLI. Run:
+    // Send message
+    function sendMessage(e){
+      e.preventDefault();
+      const input=document.getElementById('messageTxt');
+      const text=input.value.trim();
+      if(!text) return;
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      msgs.push({from:'me',text});
+      localStorage.setItem(chatKey,JSON.stringify(msgs));
+      input.value='';
+      loadMessages();
+      // Simulate bot response
+      setTimeout(()=>{
+        const botMsgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+        botMsgs.push({from:'bot',text:'Merci pour votre message !'});
+        localStorage.setItem(chatKey,JSON.stringify(botMsgs));
+        loadMessages();
+      },700);
+    }
 
-```
-npm install netlify-cli@latest -g
-```
+    // Initial load if chat already open (optional)
+    loadMessages();
+  </script></body>
+</html><!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>l'Ivoirien.ci</title>
+  <style>
+    :root{
+      --orange:#f60;
+      --green:#008751;
+      --white:#ffffff;
+      --dark:#222;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;background:var(--white);color:var(--dark);}/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--orange);color:var(--white);}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.4rem;font-weight:700;}
+.logo svg{width:32px;height:32px;}
+nav ul{display:flex;gap:16px;list-style:none;}
+nav a{color:var(--white);text-decoration:none;font-weight:600;}
 
-3. Link your local repository to the deployed Netlify site. This will ensure you're using the same runtime version for both local development and your deployed site.
+/* HERO */
+.hero{padding:32px 16px;text-align:center;background:#ececec;}
+.hero video{width:100%;max-width:640px;border-radius:12px;}
 
-```
-netlify link
-```
+/* SECTIONS */
+section{padding:40px 16px;}
+h2{margin-bottom:24px;font-size:2rem;}
+.grid{display:grid;gap:24px;}
+.videos{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.news{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.card{border:1px solid #ddd;border-radius:8px;overflow:hidden;background:var(--white);box-shadow:0 2px 4px rgba(0,0,0,.06);}
+.card img{width:100%;display:block;}
+.card p, .card h3{padding:12px;}
 
-4. Then, run the Astro.js development server via Netlify CLI:
+/* CHAT */
+.chat-button{position:fixed;bottom:24px;right:24px;background:var(--orange);color:var(--white);width:56px;height:56px;border:none;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.2);} 
+#chatContainer{position:fixed;bottom:100px;right:16px;width:320px;max-width:90vw;background:var(--white);border:1px solid #ddd;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;flex-direction:column;overflow:hidden;}
+#chatHeader{background:var(--green);color:var(--white);padding:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+#chatMessages{padding:12px;height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}    
+.msg{padding:8px 12px;border-radius:16px;max-width:80%;word-wrap:break-word;}
+.me{align-self:flex-end;background:var(--orange);color:#fff;}
+.bot{align-self:flex-start;background:#f0f0f0;}
+#chatInput{display:flex;border-top:1px solid #ddd;}
+#chatInput input{flex:1;border:none;padding:12px;font-size:1rem;}
+#chatInput button{border:none;background:var(--orange);color:#fff;padding:0 20px;font-size:1rem;font-weight:700;cursor:pointer;}
+#chatInput input:focus{outline:none;}
 
-```
-netlify dev
-```
+/* FOOTER */
+footer{text-align:center;padding:16px;background:var(--green);color:var(--white);}
 
-If your browser doesn't navigate to the site automatically, visit [localhost:8888](http://localhost:8888).
+/* MOBILE */
+@media(max-width:700px){
+  nav ul{flex-direction:column;position:absolute;top:64px;right:0;background:var(--orange);width:200px;padding:16px;display:none;}
+  nav.open ul{display:flex;}
+  .menu-toggle{display:block;cursor:pointer;font-size:28px;color:var(--white);}  
+  header{position:relative;}
+}
+@media(max-width:500px){
+  .hero video{max-width:100%;}
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <!-- SVG Logo: Flag circle of Côte d'Ivoire -->
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo l'Ivoirien.ci"><circle cx="30" cy="30" r="30" fill="#f60"/><path d="M30 0a30 30 0 0 0 0 60V0z" fill="#fff"/><path d="M30 0v60a30 30 0 0 0 0-60z" fill="#008751"/></svg>
+      l'Ivoirien.ci
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#videos">Vidéos</a></li>
+        <li><a href="#news">Actualités</a></li>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>  <!-- HERO -->  <section class="hero" id="accueil">
+    <h2>Interview à la une</h2>
+    <video controls>
+      <source src="video-exemple.mp4" type="video/mp4">Votre navigateur ne supporte pas la vidéo.</video>
+  </section>  <!-- VIDÉOS -->  <section id="videos">
+    <h2>Dernières Vidéos</h2>
+    <div class="grid videos">
+      <article class="card">
+        <img src="thumbnail1.jpg" alt="vidéo 1">
+        <p>Interview exclusive avec...</p>
+      </article>
+      <article class="card">
+        <img src="thumbnail2.jpg" alt="vidéo 2">
+        <p>Débat sur l'actualité ivoirienne</p>
+      </article>
+    </div>
+  </section>  <!-- ACTUALITÉS -->  <section id="news">
+    <h2>Actualités</h2>
+    <div class="grid news">
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Résumé de l'actualité importante du jour...</p>
+      </article>
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Un autre sujet d'intérêt pour les Ivoiriens...</p>
+      </article>
+    </div>
+  </section>  <!-- À PROPOS -->  <section id="about">
+    <h2>À propos</h2>
+    <p>l'Ivoirien.ci est un média ivoirien dédié à la diffusion d'interviews vidéo et d'actualités locales. Notre mission est de donner la parole aux citoyens et de couvrir l'information de manière libre et engagée.</p>
+  </section>  <!-- CONTACT -->  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email : contact@livoirien.ci</p>
+  </section>  <!-- FOOTER -->  <footer>&copy; 2025 l'Ivoirien.ci — Tous droits réservés</footer>  <!-- CHAT BUTTON & CONTAINER --><button class="chat-button" onclick="toggleChat()">💬</button>
+
+  <div id="chatContainer">
+    <div id="chatHeader">Discussion <span style="cursor:pointer" onclick="toggleChat()">✕</span></div>
+    <div id="chatMessages"></div>
+    <form id="chatInput" onsubmit="sendMessage(event)">
+      <input type="text" id="messageTxt" placeholder="Votre message..." autocomplete="off" required>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>  <!-- SCRIPT -->  <script>
+    // Responsive menu
+    function toggleMenu(){document.querySelector('nav').classList.toggle('open');}
+
+    // Chat system using localStorage
+    const chatKey='livoirienChat';
+    const chatContainer=document.getElementById('chatContainer');
+    const chatMessages=document.getElementById('chatMessages');
+
+    // Load messages
+    function loadMessages(){
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      chatMessages.innerHTML='';
+      msgs.forEach(m=>{
+        const div=document.createElement('div');
+        div.className='msg '+(m.from==='me'?'me':'bot');
+        div.textContent=m.text;
+        chatMessages.appendChild(div);
+      });
+      chatMessages.scrollTop=chatMessages.scrollHeight;
+    }
+
+    // Toggle chat visibility
+    function toggleChat(){
+      if(chatContainer.style.display==='flex'){
+        chatContainer.style.display='none';
+      }else{
+        chatContainer.style.display='flex';
+        loadMessages();
+      }
+    }
+
+    // Send message
+    function sendMessage(e){
+      e.preventDefault();
+      const input=document.getElementById('messageTxt');
+      const text=input.value.trim();
+      if(!text) return;
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      msgs.push({from:'me',text});
+      localStorage.setItem(chatKey,JSON.stringify(msgs));
+      input.value='';
+      loadMessages();
+      // Simulate bot response
+      setTimeout(()=>{
+        const botMsgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+        botMsgs.push({from:'bot',text:'Merci pour votre message !'});
+        localStorage.setItem(chatKey,JSON.stringify(botMsgs));
+        loadMessages();
+      },700);
+    }
+
+    // Initial load if chat already open (optional)
+    loadMessages();
+  </script></body>
+</html><!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>l'Ivoirien.ci</title>
+  <style>
+    :root{
+      --orange:#f60;
+      --green:#008751;
+      --white:#ffffff;
+      --dark:#222;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;background:var(--white);color:var(--dark);}/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--orange);color:var(--white);}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.4rem;font-weight:700;}
+.logo svg{width:32px;height:32px;}
+nav ul{display:flex;gap:16px;list-style:none;}
+nav a{color:var(--white);text-decoration:none;font-weight:600;}
+
+/* HERO */
+.hero{padding:32px 16px;text-align:center;background:#ececec;}
+.hero video{width:100%;max-width:640px;border-radius:12px;}
+
+/* SECTIONS */
+section{padding:40px 16px;}
+h2{margin-bottom:24px;font-size:2rem;}
+.grid{display:grid;gap:24px;}
+.videos{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.news{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.card{border:1px solid #ddd;border-radius:8px;overflow:hidden;background:var(--white);box-shadow:0 2px 4px rgba(0,0,0,.06);}
+.card img{width:100%;display:block;}
+.card p, .card h3{padding:12px;}
+
+/* CHAT */
+.chat-button{position:fixed;bottom:24px;right:24px;background:var(--orange);color:var(--white);width:56px;height:56px;border:none;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.2);} 
+#chatContainer{position:fixed;bottom:100px;right:16px;width:320px;max-width:90vw;background:var(--white);border:1px solid #ddd;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;flex-direction:column;overflow:hidden;}
+#chatHeader{background:var(--green);color:var(--white);padding:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+#chatMessages{padding:12px;height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}    
+.msg{padding:8px 12px;border-radius:16px;max-width:80%;word-wrap:break-word;}
+.me{align-self:flex-end;background:var(--orange);color:#fff;}
+.bot{align-self:flex-start;background:#f0f0f0;}
+#chatInput{display:flex;border-top:1px solid #ddd;}
+#chatInput input{flex:1;border:none;padding:12px;font-size:1rem;}
+#chatInput button{border:none;background:var(--orange);color:#fff;padding:0 20px;font-size:1rem;font-weight:700;cursor:pointer;}
+#chatInput input:focus{outline:none;}
+
+/* FOOTER */
+footer{text-align:center;padding:16px;background:var(--green);color:var(--white);}
+
+/* MOBILE */
+@media(max-width:700px){
+  nav ul{flex-direction:column;position:absolute;top:64px;right:0;background:var(--orange);width:200px;padding:16px;display:none;}
+  nav.open ul{display:flex;}
+  .menu-toggle{display:block;cursor:pointer;font-size:28px;color:var(--white);}  
+  header{position:relative;}
+}
+@media(max-width:500px){
+  .hero video{max-width:100%;}
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <!-- SVG Logo: Flag circle of Côte d'Ivoire -->
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo l'Ivoirien.ci"><circle cx="30" cy="30" r="30" fill="#f60"/><path d="M30 0a30 30 0 0 0 0 60V0z" fill="#fff"/><path d="M30 0v60a30 30 0 0 0 0-60z" fill="#008751"/></svg>
+      l'Ivoirien.ci
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#videos">Vidéos</a></li>
+        <li><a href="#news">Actualités</a></li>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>  <!-- HERO -->  <section class="hero" id="accueil">
+    <h2>Interview à la une</h2>
+    <video controls>
+      <source src="video-exemple.mp4" type="video/mp4">Votre navigateur ne supporte pas la vidéo.</video>
+  </section>  <!-- VIDÉOS -->  <section id="videos">
+    <h2>Dernières Vidéos</h2>
+    <div class="grid videos">
+      <article class="card">
+        <img src="thumbnail1.jpg" alt="vidéo 1">
+        <p>Interview exclusive avec...</p>
+      </article>
+      <article class="card">
+        <img src="thumbnail2.jpg" alt="vidéo 2">
+        <p>Débat sur l'actualité ivoirienne</p>
+      </article>
+    </div>
+  </section>  <!-- ACTUALITÉS -->  <section id="news">
+    <h2>Actualités</h2>
+    <div class="grid news">
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Résumé de l'actualité importante du jour...</p>
+      </article>
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Un autre sujet d'intérêt pour les Ivoiriens...</p>
+      </article>
+    </div>
+  </section>  <!-- À PROPOS -->  <section id="about">
+    <h2>À propos</h2>
+    <p>l'Ivoirien.ci est un média ivoirien dédié à la diffusion d'interviews vidéo et d'actualités locales. Notre mission est de donner la parole aux citoyens et de couvrir l'information de manière libre et engagée.</p>
+  </section>  <!-- CONTACT -->  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email : contact@livoirien.ci</p>
+  </section>  <!-- FOOTER -->  <footer>&copy; 2025 l'Ivoirien.ci — Tous droits réservés</footer>  <!-- CHAT BUTTON & CONTAINER --><button class="chat-button" onclick="toggleChat()">💬</button>
+
+  <div id="chatContainer">
+    <div id="chatHeader">Discussion <span style="cursor:pointer" onclick="toggleChat()">✕</span></div>
+    <div id="chatMessages"></div>
+    <form id="chatInput" onsubmit="sendMessage(event)">
+      <input type="text" id="messageTxt" placeholder="Votre message..." autocomplete="off" required>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>  <!-- SCRIPT -->  <script>
+    // Responsive menu
+    function toggleMenu(){document.querySelector('nav').classList.toggle('open');}
+
+    // Chat system using localStorage
+    const chatKey='livoirienChat';
+    const chatContainer=document.getElementById('chatContainer');
+    const chatMessages=document.getElementById('chatMessages');
+
+    // Load messages
+    function loadMessages(){
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      chatMessages.innerHTML='';
+      msgs.forEach(m=>{
+        const div=document.createElement('div');
+        div.className='msg '+(m.from==='me'?'me':'bot');
+        div.textContent=m.text;
+        chatMessages.appendChild(div);
+      });
+      chatMessages.scrollTop=chatMessages.scrollHeight;
+    }
+
+    // Toggle chat visibility
+    function toggleChat(){
+      if(chatContainer.style.display==='flex'){
+        chatContainer.style.display='none';
+      }else{
+        chatContainer.style.display='flex';
+        loadMessages();
+      }
+    }
+
+    // Send message
+    function sendMessage(e){
+      e.preventDefault();
+      const input=document.getElementById('messageTxt');
+      const text=input.value.trim();
+      if(!text) return;
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      msgs.push({from:'me',text});
+      localStorage.setItem(chatKey,JSON.stringify(msgs));
+      input.value='';
+      loadMessages();
+      // Simulate bot response
+      setTimeout(()=>{
+        const botMsgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+        botMsgs.push({from:'bot',text:'Merci pour votre message !'});
+        localStorage.setItem(chatKey,JSON.stringify(botMsgs));
+        loadMessages();
+      },700);
+    }
+
+    // Initial load if chat already open (optional)
+    loadMessages();
+  </script></body>
+</html><!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>l'Ivoirien.ci</title>
+  <style>
+    :root{
+      --orange:#f60;
+      --green:#008751;
+      --white:#ffffff;
+      --dark:#222;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;background:var(--white);color:var(--dark);}/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--orange);color:var(--white);}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.4rem;font-weight:700;}
+.logo svg{width:32px;height:32px;}
+nav ul{display:flex;gap:16px;list-style:none;}
+nav a{color:var(--white);text-decoration:none;font-weight:600;}
+
+/* HERO */
+.hero{padding:32px 16px;text-align:center;background:#ececec;}
+.hero video{width:100%;max-width:640px;border-radius:12px;}
+
+/* SECTIONS */
+section{padding:40px 16px;}
+h2{margin-bottom:24px;font-size:2rem;}
+.grid{display:grid;gap:24px;}
+.videos{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.news{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.card{border:1px solid #ddd;border-radius:8px;overflow:hidden;background:var(--white);box-shadow:0 2px 4px rgba(0,0,0,.06);}
+.card img{width:100%;display:block;}
+.card p, .card h3{padding:12px;}
+
+/* CHAT */
+.chat-button{position:fixed;bottom:24px;right:24px;background:var(--orange);color:var(--white);width:56px;height:56px;border:none;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.2);} 
+#chatContainer{position:fixed;bottom:100px;right:16px;width:320px;max-width:90vw;background:var(--white);border:1px solid #ddd;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;flex-direction:column;overflow:hidden;}
+#chatHeader{background:var(--green);color:var(--white);padding:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+#chatMessages{padding:12px;height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}    
+.msg{padding:8px 12px;border-radius:16px;max-width:80%;word-wrap:break-word;}
+.me{align-self:flex-end;background:var(--orange);color:#fff;}
+.bot{align-self:flex-start;background:#f0f0f0;}
+#chatInput{display:flex;border-top:1px solid #ddd;}
+#chatInput input{flex:1;border:none;padding:12px;font-size:1rem;}
+#chatInput button{border:none;background:var(--orange);color:#fff;padding:0 20px;font-size:1rem;font-weight:700;cursor:pointer;}
+#chatInput input:focus{outline:none;}
+
+/* FOOTER */
+footer{text-align:center;padding:16px;background:var(--green);color:var(--white);}
+
+/* MOBILE */
+@media(max-width:700px){
+  nav ul{flex-direction:column;position:absolute;top:64px;right:0;background:var(--orange);width:200px;padding:16px;display:none;}
+  nav.open ul{display:flex;}
+  .menu-toggle{display:block;cursor:pointer;font-size:28px;color:var(--white);}  
+  header{position:relative;}
+}
+@media(max-width:500px){
+  .hero video{max-width:100%;}
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <!-- SVG Logo: Flag circle of Côte d'Ivoire -->
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo l'Ivoirien.ci"><circle cx="30" cy="30" r="30" fill="#f60"/><path d="M30 0a30 30 0 0 0 0 60V0z" fill="#fff"/><path d="M30 0v60a30 30 0 0 0 0-60z" fill="#008751"/></svg>
+      l'Ivoirien.ci
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#videos">Vidéos</a></li>
+        <li><a href="#news">Actualités</a></li>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>  <!-- HERO -->  <section class="hero" id="accueil">
+    <h2>Interview à la une</h2>
+    <video controls>
+      <source src="video-exemple.mp4" type="video/mp4">Votre navigateur ne supporte pas la vidéo.</video>
+  </section>  <!-- VIDÉOS -->  <section id="videos">
+    <h2>Dernières Vidéos</h2>
+    <div class="grid videos">
+      <article class="card">
+        <img src="thumbnail1.jpg" alt="vidéo 1">
+        <p>Interview exclusive avec...</p>
+      </article>
+      <article class="card">
+        <img src="thumbnail2.jpg" alt="vidéo 2">
+        <p>Débat sur l'actualité ivoirienne</p>
+      </article>
+    </div>
+  </section>  <!-- ACTUALITÉS -->  <section id="news">
+    <h2>Actualités</h2>
+    <div class="grid news">
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Résumé de l'actualité importante du jour...</p>
+      </article>
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Un autre sujet d'intérêt pour les Ivoiriens...</p>
+      </article>
+    </div>
+  </section>  <!-- À PROPOS -->  <section id="about">
+    <h2>À propos</h2>
+    <p>l'Ivoirien.ci est un média ivoirien dédié à la diffusion d'interviews vidéo et d'actualités locales. Notre mission est de donner la parole aux citoyens et de couvrir l'information de manière libre et engagée.</p>
+  </section>  <!-- CONTACT -->  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email : contact@livoirien.ci</p>
+  </section>  <!-- FOOTER -->  <footer>&copy; 2025 l'Ivoirien.ci — Tous droits réservés</footer>  <!-- CHAT BUTTON & CONTAINER --><button class="chat-button" onclick="toggleChat()">💬</button>
+
+  <div id="chatContainer">
+    <div id="chatHeader">Discussion <span style="cursor:pointer" onclick="toggleChat()">✕</span></div>
+    <div id="chatMessages"></div>
+    <form id="chatInput" onsubmit="sendMessage(event)">
+      <input type="text" id="messageTxt" placeholder="Votre message..." autocomplete="off" required>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>  <!-- SCRIPT -->  <script>
+    // Responsive menu
+    function toggleMenu(){document.querySelector('nav').classList.toggle('open');}
+
+    // Chat system using localStorage
+    const chatKey='livoirienChat';
+    const chatContainer=document.getElementById('chatContainer');
+    const chatMessages=document.getElementById('chatMessages');
+
+    // Load messages
+    function loadMessages(){
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      chatMessages.innerHTML='';
+      msgs.forEach(m=>{
+        const div=document.createElement('div');
+        div.className='msg '+(m.from==='me'?'me':'bot');
+        div.textContent=m.text;
+        chatMessages.appendChild(div);
+      });
+      chatMessages.scrollTop=chatMessages.scrollHeight;
+    }
+
+    // Toggle chat visibility
+    function toggleChat(){
+      if(chatContainer.style.display==='flex'){
+        chatContainer.style.display='none';
+      }else{
+        chatContainer.style.display='flex';
+        loadMessages();
+      }
+    }
+
+    // Send message
+    function sendMessage(e){
+      e.preventDefault();
+      const input=document.getElementById('messageTxt');
+      const text=input.value.trim();
+      if(!text) return;
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      msgs.push({from:'me',text});
+      localStorage.setItem(chatKey,JSON.stringify(msgs));
+      input.value='';
+      loadMessages();
+      // Simulate bot response
+      setTimeout(()=>{
+        const botMsgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+        botMsgs.push({from:'bot',text:'Merci pour votre message !'});
+        localStorage.setItem(chatKey,JSON.stringify(botMsgs));
+        loadMessages();
+      },700);
+    }
+
+    // Initial load if chat already open (optional)
+    loadMessages();
+  </script></body>
+</html><!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>l'Ivoirien.ci</title>
+  <style>
+    :root{
+      --orange:#f60;
+      --green:#008751;
+      --white:#ffffff;
+      --dark:#222;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;background:var(--white);color:var(--dark);}/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--orange);color:var(--white);}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.4rem;font-weight:700;}
+.logo svg{width:32px;height:32px;}
+nav ul{display:flex;gap:16px;list-style:none;}
+nav a{color:var(--white);text-decoration:none;font-weight:600;}
+
+/* HERO */
+.hero{padding:32px 16px;text-align:center;background:#ececec;}
+.hero video{width:100%;max-width:640px;border-radius:12px;}
+
+/* SECTIONS */
+section{padding:40px 16px;}
+h2{margin-bottom:24px;font-size:2rem;}
+.grid{display:grid;gap:24px;}
+.videos{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.news{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.card{border:1px solid #ddd;border-radius:8px;overflow:hidden;background:var(--white);box-shadow:0 2px 4px rgba(0,0,0,.06);}
+.card img{width:100%;display:block;}
+.card p, .card h3{padding:12px;}
+
+/* CHAT */
+.chat-button{position:fixed;bottom:24px;right:24px;background:var(--orange);color:var(--white);width:56px;height:56px;border:none;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.2);} 
+#chatContainer{position:fixed;bottom:100px;right:16px;width:320px;max-width:90vw;background:var(--white);border:1px solid #ddd;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;flex-direction:column;overflow:hidden;}
+#chatHeader{background:var(--green);color:var(--white);padding:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+#chatMessages{padding:12px;height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}    
+.msg{padding:8px 12px;border-radius:16px;max-width:80%;word-wrap:break-word;}
+.me{align-self:flex-end;background:var(--orange);color:#fff;}
+.bot{align-self:flex-start;background:#f0f0f0;}
+#chatInput{display:flex;border-top:1px solid #ddd;}
+#chatInput input{flex:1;border:none;padding:12px;font-size:1rem;}
+#chatInput button{border:none;background:var(--orange);color:#fff;padding:0 20px;font-size:1rem;font-weight:700;cursor:pointer;}
+#chatInput input:focus{outline:none;}
+
+/* FOOTER */
+footer{text-align:center;padding:16px;background:var(--green);color:var(--white);}
+
+/* MOBILE */
+@media(max-width:700px){
+  nav ul{flex-direction:column;position:absolute;top:64px;right:0;background:var(--orange);width:200px;padding:16px;display:none;}
+  nav.open ul{display:flex;}
+  .menu-toggle{display:block;cursor:pointer;font-size:28px;color:var(--white);}  
+  header{position:relative;}
+}
+@media(max-width:500px){
+  .hero video{max-width:100%;}
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <!-- SVG Logo: Flag circle of Côte d'Ivoire -->
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo l'Ivoirien.ci"><circle cx="30" cy="30" r="30" fill="#f60"/><path d="M30 0a30 30 0 0 0 0 60V0z" fill="#fff"/><path d="M30 0v60a30 30 0 0 0 0-60z" fill="#008751"/></svg>
+      l'Ivoirien.ci
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#videos">Vidéos</a></li>
+        <li><a href="#news">Actualités</a></li>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>  <!-- HERO -->  <section class="hero" id="accueil">
+    <h2>Interview à la une</h2>
+    <video controls>
+      <source src="video-exemple.mp4" type="video/mp4">Votre navigateur ne supporte pas la vidéo.</video>
+  </section>  <!-- VIDÉOS -->  <section id="videos">
+    <h2>Dernières Vidéos</h2>
+    <div class="grid videos">
+      <article class="card">
+        <img src="thumbnail1.jpg" alt="vidéo 1">
+        <p>Interview exclusive avec...</p>
+      </article>
+      <article class="card">
+        <img src="thumbnail2.jpg" alt="vidéo 2">
+        <p>Débat sur l'actualité ivoirienne</p>
+      </article>
+    </div>
+  </section>  <!-- ACTUALITÉS -->  <section id="news">
+    <h2>Actualités</h2>
+    <div class="grid news">
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Résumé de l'actualité importante du jour...</p>
+      </article>
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Un autre sujet d'intérêt pour les Ivoiriens...</p>
+      </article>
+    </div>
+  </section>  <!-- À PROPOS -->  <section id="about">
+    <h2>À propos</h2>
+    <p>l'Ivoirien.ci est un média ivoirien dédié à la diffusion d'interviews vidéo et d'actualités locales. Notre mission est de donner la parole aux citoyens et de couvrir l'information de manière libre et engagée.</p>
+  </section>  <!-- CONTACT -->  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email : contact@livoirien.ci</p>
+  </section>  <!-- FOOTER -->  <footer>&copy; 2025 l'Ivoirien.ci — Tous droits réservés</footer>  <!-- CHAT BUTTON & CONTAINER --><button class="chat-button" onclick="toggleChat()">💬</button>
+
+  <div id="chatContainer">
+    <div id="chatHeader">Discussion <span style="cursor:pointer" onclick="toggleChat()">✕</span></div>
+    <div id="chatMessages"></div>
+    <form id="chatInput" onsubmit="sendMessage(event)">
+      <input type="text" id="messageTxt" placeholder="Votre message..." autocomplete="off" required>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>  <!-- SCRIPT -->  <script>
+    // Responsive menu
+    function toggleMenu(){document.querySelector('nav').classList.toggle('open');}
+
+    // Chat system using localStorage
+    const chatKey='livoirienChat';
+    const chatContainer=document.getElementById('chatContainer');
+    const chatMessages=document.getElementById('chatMessages');
+
+    // Load messages
+    function loadMessages(){
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      chatMessages.innerHTML='';
+      msgs.forEach(m=>{
+        const div=document.createElement('div');
+        div.className='msg '+(m.from==='me'?'me':'bot');
+        div.textContent=m.text;
+        chatMessages.appendChild(div);
+      });
+      chatMessages.scrollTop=chatMessages.scrollHeight;
+    }
+
+    // Toggle chat visibility
+    function toggleChat(){
+      if(chatContainer.style.display==='flex'){
+        chatContainer.style.display='none';
+      }else{
+        chatContainer.style.display='flex';
+        loadMessages();
+      }
+    }
+
+    // Send message
+    function sendMessage(e){
+      e.preventDefault();
+      const input=document.getElementById('messageTxt');
+      const text=input.value.trim();
+      if(!text) return;
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      msgs.push({from:'me',text});
+      localStorage.setItem(chatKey,JSON.stringify(msgs));
+      input.value='';
+      loadMessages();
+      // Simulate bot response
+      setTimeout(()=>{
+        const botMsgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+        botMsgs.push({from:'bot',text:'Merci pour votre message !'});
+        localStorage.setItem(chatKey,JSON.stringify(botMsgs));
+        loadMessages();
+      },700);
+    }
+
+    // Initial load if chat already open (optional)
+    loadMessages();
+  </script></body>
+</html><!DOCTYPE html><html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>l'Ivoirien.ci</title>
+  <style>
+    :root{
+      --orange:#f60;
+      --green:#008751;
+      --white:#ffffff;
+      --dark:#222;
+    }
+    *{box-sizing:border-box;margin:0;padding:0;}
+    body{font-family:Arial,Helvetica,sans-serif;line-height:1.5;background:var(--white);color:var(--dark);}/* HEADER */
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:var(--orange);color:var(--white);}
+.logo{display:flex;align-items:center;gap:8px;font-size:1.4rem;font-weight:700;}
+.logo svg{width:32px;height:32px;}
+nav ul{display:flex;gap:16px;list-style:none;}
+nav a{color:var(--white);text-decoration:none;font-weight:600;}
+
+/* HERO */
+.hero{padding:32px 16px;text-align:center;background:#ececec;}
+.hero video{width:100%;max-width:640px;border-radius:12px;}
+
+/* SECTIONS */
+section{padding:40px 16px;}
+h2{margin-bottom:24px;font-size:2rem;}
+.grid{display:grid;gap:24px;}
+.videos{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.news{grid-template-columns:repeat(auto-fit,minmax(260px,1fr));}
+.card{border:1px solid #ddd;border-radius:8px;overflow:hidden;background:var(--white);box-shadow:0 2px 4px rgba(0,0,0,.06);}
+.card img{width:100%;display:block;}
+.card p, .card h3{padding:12px;}
+
+/* CHAT */
+.chat-button{position:fixed;bottom:24px;right:24px;background:var(--orange);color:var(--white);width:56px;height:56px;border:none;border-radius:50%;font-size:24px;cursor:pointer;box-shadow:0 4px 10px rgba(0,0,0,.2);} 
+#chatContainer{position:fixed;bottom:100px;right:16px;width:320px;max-width:90vw;background:var(--white);border:1px solid #ddd;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,.15);display:none;flex-direction:column;overflow:hidden;}
+#chatHeader{background:var(--green);color:var(--white);padding:12px;font-weight:700;display:flex;justify-content:space-between;align-items:center;}
+#chatMessages{padding:12px;height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:8px;}    
+.msg{padding:8px 12px;border-radius:16px;max-width:80%;word-wrap:break-word;}
+.me{align-self:flex-end;background:var(--orange);color:#fff;}
+.bot{align-self:flex-start;background:#f0f0f0;}
+#chatInput{display:flex;border-top:1px solid #ddd;}
+#chatInput input{flex:1;border:none;padding:12px;font-size:1rem;}
+#chatInput button{border:none;background:var(--orange);color:#fff;padding:0 20px;font-size:1rem;font-weight:700;cursor:pointer;}
+#chatInput input:focus{outline:none;}
+
+/* FOOTER */
+footer{text-align:center;padding:16px;background:var(--green);color:var(--white);}
+
+/* MOBILE */
+@media(max-width:700px){
+  nav ul{flex-direction:column;position:absolute;top:64px;right:0;background:var(--orange);width:200px;padding:16px;display:none;}
+  nav.open ul{display:flex;}
+  .menu-toggle{display:block;cursor:pointer;font-size:28px;color:var(--white);}  
+  header{position:relative;}
+}
+@media(max-width:500px){
+  .hero video{max-width:100%;}
+}
+
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header>
+    <div class="logo">
+      <!-- SVG Logo: Flag circle of Côte d'Ivoire -->
+      <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Logo l'Ivoirien.ci"><circle cx="30" cy="30" r="30" fill="#f60"/><path d="M30 0a30 30 0 0 0 0 60V0z" fill="#fff"/><path d="M30 0v60a30 30 0 0 0 0-60z" fill="#008751"/></svg>
+      l'Ivoirien.ci
+    </div>
+    <div class="menu-toggle" onclick="toggleMenu()">☰</div>
+    <nav id="mainNav">
+      <ul>
+        <li><a href="#accueil">Accueil</a></li>
+        <li><a href="#videos">Vidéos</a></li>
+        <li><a href="#news">Actualités</a></li>
+        <li><a href="#about">À propos</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+  </header>  <!-- HERO -->  <section class="hero" id="accueil">
+    <h2>Interview à la une</h2>
+    <video controls>
+      <source src="video-exemple.mp4" type="video/mp4">Votre navigateur ne supporte pas la vidéo.</video>
+  </section>  <!-- VIDÉOS -->  <section id="videos">
+    <h2>Dernières Vidéos</h2>
+    <div class="grid videos">
+      <article class="card">
+        <img src="thumbnail1.jpg" alt="vidéo 1">
+        <p>Interview exclusive avec...</p>
+      </article>
+      <article class="card">
+        <img src="thumbnail2.jpg" alt="vidéo 2">
+        <p>Débat sur l'actualité ivoirienne</p>
+      </article>
+    </div>
+  </section>  <!-- ACTUALITÉS -->  <section id="news">
+    <h2>Actualités</h2>
+    <div class="grid news">
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Résumé de l'actualité importante du jour...</p>
+      </article>
+      <article class="card">
+        <h3>Titre de l'article</h3>
+        <p>Un autre sujet d'intérêt pour les Ivoiriens...</p>
+      </article>
+    </div>
+  </section>  <!-- À PROPOS -->  <section id="about">
+    <h2>À propos</h2>
+    <p>l'Ivoirien.ci est un média ivoirien dédié à la diffusion d'interviews vidéo et d'actualités locales. Notre mission est de donner la parole aux citoyens et de couvrir l'information de manière libre et engagée.</p>
+  </section>  <!-- CONTACT -->  <section id="contact">
+    <h2>Contact</h2>
+    <p>Email : contact@livoirien.ci</p>
+  </section>  <!-- FOOTER -->  <footer>&copy; 2025 l'Ivoirien.ci — Tous droits réservés</footer>  <!-- CHAT BUTTON & CONTAINER --><button class="chat-button" onclick="toggleChat()">💬</button>
+
+  <div id="chatContainer">
+    <div id="chatHeader">Discussion <span style="cursor:pointer" onclick="toggleChat()">✕</span></div>
+    <div id="chatMessages"></div>
+    <form id="chatInput" onsubmit="sendMessage(event)">
+      <input type="text" id="messageTxt" placeholder="Votre message..." autocomplete="off" required>
+      <button type="submit">Envoyer</button>
+    </form>
+  </div>  <!-- SCRIPT -->  <script>
+    // Responsive menu
+    function toggleMenu(){document.querySelector('nav').classList.toggle('open');}
+
+    // Chat system using localStorage
+    const chatKey='livoirienChat';
+    const chatContainer=document.getElementById('chatContainer');
+    const chatMessages=document.getElementById('chatMessages');
+
+    // Load messages
+    function loadMessages(){
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      chatMessages.innerHTML='';
+      msgs.forEach(m=>{
+        const div=document.createElement('div');
+        div.className='msg '+(m.from==='me'?'me':'bot');
+        div.textContent=m.text;
+        chatMessages.appendChild(div);
+      });
+      chatMessages.scrollTop=chatMessages.scrollHeight;
+    }
+
+    // Toggle chat visibility
+    function toggleChat(){
+      if(chatContainer.style.display==='flex'){
+        chatContainer.style.display='none';
+      }else{
+        chatContainer.style.display='flex';
+        loadMessages();
+      }
+    }
+
+    // Send message
+    function sendMessage(e){
+      e.preventDefault();
+      const input=document.getElementById('messageTxt');
+      const text=input.value.trim();
+      if(!text) return;
+      const msgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+      msgs.push({from:'me',text});
+      localStorage.setItem(chatKey,JSON.stringify(msgs));
+      input.value='';
+      loadMessages();
+      // Simulate bot response
+      setTimeout(()=>{
+        const botMsgs=JSON.parse(localStorage.getItem(chatKey)||'[]');
+        botMsgs.push({from:'bot',text:'Merci pour votre message !'});
+        localStorage.setItem(chatKey,JSON.stringify(botMsgs));
+        loadMessages();
+      },700);
+    }
+
+    // Initial load if chat already open (optional)
+    loadMessages();
+  </script></body>
+</html>
